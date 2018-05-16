@@ -1,0 +1,83 @@
+  html,
+  body {
+    font-family: Arial, sans-serif;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  input {
+    font-size: 12px;
+  }
+
+  h1 {
+    color: #525454;
+    font-size: 22px;
+    margin: 0 0 10px 0;
+    text-align: center;
+  }
+
+  h4 {
+    color: #525454;
+    font-size: 14px;
+    margin: 0 0 10px 0;
+    text-align: center;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  #map {
+    bottom:0px;
+    height: 100%;
+    left: 100px;
+    position: absolute;
+    /*position: relative;*/
+    right: 0px;
+  }
+
+  .header {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+  min-height: 35px;
+  transition: min-height 0.3s;
+  padding-top: 1px;
+}
+
+.header__inner {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header__title {
+  font-weight: 300;
+  font-size: 2em;
+  margin: 0.5em 0.25em;
+  display: inline-block;
+  color: #212121;
+}
+
+.nav__list {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+#pano {
+  width: 200px;
+  height: 200px;
+}
+
+.text {
+  font-size: 12px;
+}
+
+main {
+/*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);*/
+width: 100%;
+margin-left: 1px;
+margin-right: 1px;
+padding-left: 0px;
+}
+

@@ -1,0 +1,101 @@
+.header__menu {
+  display: none;
+}
+
+@media screen and (max-width: 549px) {
+  .nav {
+    z-index: 10;
+    background-color: #fff;
+    width: 250px;
+    position: absolute;
+    /* This trasform moves the drawer off canvas. */
+    -webkit-transform: translate(-300px, 0);
+    transform: translate(-300px, 0);
+    /* Optionally, we animate the drawer. */
+    transition: transform 0.3s ease;
+  }
+  .nav.open {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+  .header__title {
+    margin-left: 10px;
+    font-size: 1em;
+    vertical-align: bottom; 
+    text-align: center;
+  }
+  .header__menu {
+    display: inline-block;
+    position: absolute;
+    right: 2em;
+    /*padding: 1em;*/
+  }
+  .header__menu svg {
+    width: 32px;
+    fill: #E0E0E0;
+  }
+  #map {
+    bottom:0px;
+    height: 90%;
+    left: 20px;
+    position: absolute;
+    right: 20px;
+  }
+}
+
+@media screen and (min-width: 550px) {
+  /*#drawer {
+      width:30%;
+  }*/
+  .nav {
+      width:25%;
+  }
+  .header__menu svg {
+      display: none;
+  }
+  #map {
+    bottom:0px;
+    height: 88%;
+    left: 200px;
+    position: absolute;
+    right: 0;
+  }
+}
+
+@media screen and (min-width: 850px) {
+  #drawer {
+      width:20%;
+  }
+  /*#searchInput {
+      width: 80%;
+  }*/
+  .header__menu svg {
+      display: none;
+  }
+  #map {
+    bottom:0px;
+    height: 85%;
+    left: 250px;
+    position: absolute;
+    right: 0;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  #drawer {
+      width:15%;
+  }
+  /*#searchInput {
+      width: 80%;
+  }*/
+  .header__menu svg {
+      display: none;
+  }
+  #map {
+    bottom:0px;
+    height: 88%;
+    left: 300px;
+    position: absolute;
+    right: 0;
+  }
+}
