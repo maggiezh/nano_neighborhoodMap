@@ -51,7 +51,6 @@ const AppViewModel = function() {
                 classes.splice(i, 1);
                 if(self.expandOrCollapse() == 'open') {
                     self.expandOrCollapse('close');
-                    
                 }
                 else {self.expandOrCollapse('open');}
                 // classes.push(self.expandOrCollapse());
@@ -66,19 +65,19 @@ const AppViewModel = function() {
             let classes = drawer.className.split(" ");
             let i = classes.indexOf(self.expandOrCollapse);
 
-            if(i>=0) {
+            if(i> - 1) {
                 classes.splice(i, 1);
+                if(self.expandOrCollapse() == 'open') {
+                    self.expandOrCollapse('close');
+                    
+                }
+                else {self.expandOrCollapse('open');}
             }
             else {
                 classes.push(self.expandOrCollapse);
                 drawer.className = classes.join(" ");
             }
         }
-        
-    //     for(let i = 0; i < drawer.classList.length; i++) {
-    //     console.log("drawer is " + drawer.classList[i]);
-    //     //drawer.classList.toggle(self.expandOrCollapse);
-    //     }
      }
 
     self.searchInput = ko.observable("");
@@ -239,13 +238,17 @@ function initMap() {
               if (textStatus != "success") {
                   placeUrl = '<div>' + 'Wikipedia data is not available' + '</div>';
               } 
-              else {
-                    // Use streetview service to get the closest streetview image within
-                    // 50 meters of the markers position
-                    let streetViewService = new google.maps.StreetViewService();
-                    let radius = 50;
-                    streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-              }});
+            //   else {
+            //         // Use streetview service to get the closest streetview image within
+            //         // 50 meters of the markers position
+            //         // let streetViewService = new google.maps.StreetViewService();
+            //         // let radius = 50;
+            //         // streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+            //   }
+              let streetViewService = new google.maps.StreetViewService();
+              let radius = 50;
+              streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+            });
 
           // In case the status is OK, which means the pano was found, compute the
           // position of the streetview image, then calculate the heading, then get a
