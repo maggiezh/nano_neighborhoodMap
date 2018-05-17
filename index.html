@@ -12,7 +12,7 @@
         <header class="header">
             <div class="header__inner">
                 <h4 class="header__title">Find Your Favorite Place in Forbidden City</h4>
-                <a id="menu" class="header__menu">
+                <a id="menu" class="header__menu" data-bind="click: expandMenu">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"/>
                     </svg>
@@ -20,9 +20,9 @@
             </div>
         </header>
         
-        <nav id="drawer" class="nav">
+        <nav id="drawer" class="nav" data-bind="css: expandOrCollapse">
             <input type="text" id="searchInput" class="form-control" 
-                    placeholder="Search..." data-bind="value:searchInput, valueUpdate:'keyup'">
+                    placeholder="Search..." data-bind="textInput:searchInput">                    
             </br>
             <ul class="nav__list" data-bind="foreach:filteredMarkers">
                 <button type="button" class="list-group-item list-group-item-action" 
@@ -34,22 +34,6 @@
             <div id="map"></div>
         </main>
             
-        <script>
-            /*
-            * Open the drawer when the menu ison is clicked.
-            */
-            var menu = document.querySelector('#menu');
-            var main = document.querySelector('main');
-            var drawer = document.querySelector('.nav');
-
-            menu.addEventListener('click', function(e) {
-                drawer.classList.toggle('open');
-                e.stopPropagation();
-            });
-            main.addEventListener('click', function() {
-                drawer.classList.remove('open');
-            });
-        </script>
         <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
         <script src="js/lib/knockout-3.4.2.js"></script>
         <script src="js/app.js"></script>

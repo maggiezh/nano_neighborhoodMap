@@ -1,4 +1,3 @@
-
 let map;
 let infoWindow;
 // variable to open infoWindow
@@ -24,6 +23,13 @@ const AppViewModel = function() {
     locations.forEach(function(lo){
         self.visibleMarkers.push({title: lo.title, position: lo.position});
     });
+
+    let expandOrCollapse;
+    function expandMenu(){
+        let isDrawerVisible = $('#drawer').is(":visible");
+        if (isDrawerVisible) expandOrCollapse = 'hidden';
+        else expandOrCollapse = 'visible';
+    }
 
     self.searchInput = ko.observable("");
 
@@ -158,24 +164,39 @@ function initMap() {
             marker.setAnimation(null);
           }, 750);
 
+          infoWindow.open(map, marker);
           let wikiUrl = "https://en.wikipedia.org/w/api.php?"+
                       "action=opensearch&search=" + marker.title +
                       "&format=json&callback=wikiCallback";
           let placeUrl = '';
           let contentString = '';
-          //get the place url of the marker that is clicked using Wikipedia API           
+
+          //get the place url of the marker that is clicked using Wikipedia API    
+          //get the streetview only after getting response from Wiki API       
           $.ajax({
               url: wikiUrl,
               dataType: "jsonp"
           }).done(function(response){
               let article = response[3][0];
-              placeUrl = '<div>' +'<a href="' + article + '"target="_blank"> ' + marker.title + '</a></div>';
+              //Populate the wiki link only if the wiki page url is available
+              if (article != null) {
+                  placeUrl = '<div>' +'<a href="' + article + '"target="_blank"> ' + marker.title + '</a></div>';
+              }
+              
           }).fail(function(){
               placeUrl = '<div>' + 'Wikipedia data is not available' + '</div>';
-          });
+          }).always(function(jqXHR, textStatus){
+              if (textStatus != "success") {
+                  placeUrl = '<div>' + 'Wikipedia data is not available' + '</div>';
+              } 
+              else {
+                    // Use streetview service to get the closest streetview image within
+                    // 50 meters of the markers position
+                    let streetViewService = new google.maps.StreetViewService();
+                    let radius = 50;
+                    streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+              }});
 
-          let streetViewService = new google.maps.StreetViewService();
-          let radius = 50;
           // In case the status is OK, which means the pano was found, compute the
           // position of the streetview image, then calculate the heading, then get a
           // panorama from that and set the options
@@ -201,11 +222,6 @@ function initMap() {
               infoWindow.setContent(contentString);
             }
           }
-          // Use streetview service to get the closest streetview image within
-          // 50 meters of the markers position
-          streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-          // Open the infoWindow on the correct marker.
-          infoWindow.open(map, marker);
         }
  };
 
