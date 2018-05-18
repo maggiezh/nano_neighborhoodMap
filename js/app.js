@@ -3,19 +3,9 @@ let infoWindow;
 // variable to open infoWindow
 let popInfoWindow;
 let selectMarker;
-//let expandMenu;
 
 //create the markers array to hold all markers 
 let markers = []; 
-//create locations array to hold the markers and the information on the location of the markers
-const locations = [
-        {title: "The Palace Museum", location: {lat: 39.9163447, lng: 116.3971546}, id:0},
-        {title: "Tiananmen", location: {lat: 39.9087202, lng: 116.3974799}, id:1},
-        {title: "Jingshan Park", location: {lat: 39.9250988, lng: 116.3968433}, id:2},
-        {title: "Nine Dragon Walls", location: {lat: 39.918474, lng: 116.400398}, id:3},
-        {title: "Wangfujing Pedestrian Street", location: {lat: 39.910959, lng: 116.411341}, id:4},
-        {title: "National Art Museum of China", location: {lat: 39.925092, lng: 116.409285}, id:5}
-    ];
 
 const AppViewModel = function() {
     let self = this;    
@@ -27,58 +17,15 @@ const AppViewModel = function() {
 
     //let expandOrCollapse;
     self.expandOrCollapse = ko.observable('open');
+    
     self.expandMenu = function() {
-        // let isDrawerVisible = $('#drawer').is(":visible");
-        // if (isDrawerVisible) self.expandOrCollapse = 'close';
-        // else self.expandOrCollapse = 'open';
-        //self.expandOrCollapse = ko.observable('open');
-        let drawer = document.querySelector('.nav');
-        // if(drawer.classList[1] == 'open') {
-        //     //drawer.classList[1] = 'close';
-        //     drawer.classList[1] = self.expandOrCollapse('close');
-        //     console.log(drawer);
-        // }
-        // else {
-        //     drawer.classList[1] = self.expandOrCollapse('close');
-        //     draw.className = 
-        // }
-        if (drawer.classList)
-        {
-            let classes = drawer.className.split(" ");
-            let i = classes.indexOf(self.expandOrCollapse());
-
-            if(i> -1 ) {
-                classes.splice(i, 1);
-                if(self.expandOrCollapse() == 'open') {
-                    self.expandOrCollapse('close');
-                }
-                else {self.expandOrCollapse('open');}
-                // classes.push(self.expandOrCollapse());
-                // drawer.className = classes.join(" ");
-            }
-            else {
-                classes.push(self.expandOrCollapse);
-                drawer.className = classes.join(" ");
-            }
+        if(self.expandOrCollapse() === 'open') {
+            self.expandOrCollapse('close');
         }
         else {
-            let classes = drawer.className.split(" ");
-            let i = classes.indexOf(self.expandOrCollapse);
-
-            if(i> - 1) {
-                classes.splice(i, 1);
-                if(self.expandOrCollapse() == 'open') {
-                    self.expandOrCollapse('close');
-                    
-                }
-                else {self.expandOrCollapse('open');}
-            }
-            else {
-                classes.push(self.expandOrCollapse);
-                drawer.className = classes.join(" ");
-            }
+            self.expandOrCollapse('open');
         }
-     }
+    }
 
     self.searchInput = ko.observable("");
 
@@ -238,13 +185,8 @@ function initMap() {
               if (textStatus != "success") {
                   placeUrl = '<div>' + 'Wikipedia data is not available' + '</div>';
               } 
-            //   else {
-            //         // Use streetview service to get the closest streetview image within
-            //         // 50 meters of the markers position
-            //         // let streetViewService = new google.maps.StreetViewService();
-            //         // let radius = 50;
-            //         // streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-            //   }
+            // Use streetview service to get the closest streetview image within
+            // 50 meters of the markers position
               let streetViewService = new google.maps.StreetViewService();
               let radius = 50;
               streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
@@ -258,7 +200,7 @@ function initMap() {
               let nearStreetViewLocation = data.location.latLng;
               let heading = google.maps.geometry.spherical.computeHeading(
                 nearStreetViewLocation, marker.position);
-              contentString = placeUrl + '<div id="pano"></div>';
+              contentString = placeUrl + '<div id="pano" class="pano-view"></div>';
                 infoWindow.setContent(contentString);
                 let panoramaOptions = {
                   position: nearStreetViewLocation,

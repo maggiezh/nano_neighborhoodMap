@@ -28,7 +28,7 @@
     text-decoration: underline;
   }
 
-  #map {
+  .map-canvas {
     bottom:0px;
     height: 100%;
     left: 100px;
@@ -64,7 +64,7 @@
   margin: 0;
 }
 
-#pano {
+.pano-view {
   width: 200px;
   height: 200px;
 }
