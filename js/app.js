@@ -3,6 +3,7 @@ let infoWindow;
 // variable to open infoWindow
 let popInfoWindow;
 let selectMarker;
+//let expandMenu;
 
 //create the markers array to hold all markers 
 let markers = []; 
@@ -24,12 +25,60 @@ const AppViewModel = function() {
         self.visibleMarkers.push({title: lo.title, position: lo.position});
     });
 
-    let expandOrCollapse;
-    function expandMenu(){
-        let isDrawerVisible = $('#drawer').is(":visible");
-        if (isDrawerVisible) expandOrCollapse = 'hidden';
-        else expandOrCollapse = 'visible';
-    }
+    //let expandOrCollapse;
+    self.expandOrCollapse = ko.observable('open');
+    self.expandMenu = function() {
+        // let isDrawerVisible = $('#drawer').is(":visible");
+        // if (isDrawerVisible) self.expandOrCollapse = 'close';
+        // else self.expandOrCollapse = 'open';
+        //self.expandOrCollapse = ko.observable('open');
+        let drawer = document.querySelector('.nav');
+        // if(drawer.classList[1] == 'open') {
+        //     //drawer.classList[1] = 'close';
+        //     drawer.classList[1] = self.expandOrCollapse('close');
+        //     console.log(drawer);
+        // }
+        // else {
+        //     drawer.classList[1] = self.expandOrCollapse('close');
+        //     draw.className = 
+        // }
+        if (drawer.classList)
+        {
+            let classes = drawer.className.split(" ");
+            let i = classes.indexOf(self.expandOrCollapse());
+
+            if(i> -1 ) {
+                classes.splice(i, 1);
+                if(self.expandOrCollapse() == 'open') {
+                    self.expandOrCollapse('close');
+                }
+                else {self.expandOrCollapse('open');}
+                // classes.push(self.expandOrCollapse());
+                // drawer.className = classes.join(" ");
+            }
+            else {
+                classes.push(self.expandOrCollapse);
+                drawer.className = classes.join(" ");
+            }
+        }
+        else {
+            let classes = drawer.className.split(" ");
+            let i = classes.indexOf(self.expandOrCollapse);
+
+            if(i> - 1) {
+                classes.splice(i, 1);
+                if(self.expandOrCollapse() == 'open') {
+                    self.expandOrCollapse('close');
+                    
+                }
+                else {self.expandOrCollapse('open');}
+            }
+            else {
+                classes.push(self.expandOrCollapse);
+                drawer.className = classes.join(" ");
+            }
+        }
+     }
 
     self.searchInput = ko.observable("");
 
@@ -189,13 +238,17 @@ function initMap() {
               if (textStatus != "success") {
                   placeUrl = '<div>' + 'Wikipedia data is not available' + '</div>';
               } 
-              else {
-                    // Use streetview service to get the closest streetview image within
-                    // 50 meters of the markers position
-                    let streetViewService = new google.maps.StreetViewService();
-                    let radius = 50;
-                    streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-              }});
+            //   else {
+            //         // Use streetview service to get the closest streetview image within
+            //         // 50 meters of the markers position
+            //         // let streetViewService = new google.maps.StreetViewService();
+            //         // let radius = 50;
+            //         // streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+            //   }
+              let streetViewService = new google.maps.StreetViewService();
+              let radius = 50;
+              streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+            });
 
           // In case the status is OK, which means the pano was found, compute the
           // position of the streetview image, then calculate the heading, then get a
